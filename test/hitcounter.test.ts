@@ -8,7 +8,7 @@ test('DynamoDB Table Created With Encryption', () => {
   const stack = new cdk.Stack();
   //WHEN
   new HitCounter(stack, 'MyTestConstruct', {
-    downsteam: new lambda.Function(stack, 'TestFunction', {
+    downstream: new lambda.Function(stack, 'TestFunction', {
       runtime: lambda.Runtime.NODEJS_10_X,
       handler: 'lambda.handler',
       code: lambda.Code.inline('test')
@@ -26,7 +26,7 @@ test('Lambda Has Environment Variables', () => {
   const stack = new cdk.Stack();
   //WHEN 
   new HitCounter(stack, 'MyTestConstruct', {
-    downsteam: new lambda.Function(stack, 'TestFunction', {
+    downstream: new lambda.Function(stack, 'TestFunction', {
       runtime: lambda.Runtime.NODEJS_10_X,
       handler: 'lambda.handler',
       code: lambda.Code.inline('test')
@@ -41,4 +41,19 @@ test('Lambda Has Environment Variables', () => {
       }
     }
   }));
+})
+
+test('Read capacity can be configured', () => {
+  const stack = new cdk.Stack();
+
+  expect(() => {
+    new HitCounter(stack, 'MyTestConstruct', {
+      downstream: new lambda.Function(stack, 'TestFunction', {
+        runtime: lambda.Runtime.NODEJS_10_X,
+        handler: 'lambda.handler',
+        code: lambda.Code.inline('test')
+      }),
+      readCapacity: 3
+    });
+  }).toThrowError(/readCapacity must be greater than 5 and less than 20/);
 })

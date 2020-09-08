@@ -16,7 +16,7 @@ export class CdkWokshopStack extends cdk.Stack {
     });
 
     const helloWithCounter = new HitCounter(this, 'HelloHitCounter', {
-      downsteam: hello
+      downstream: hello
     });
 
     //define the API gateway REST API resource backed by our "hello" function
